@@ -1,0 +1,40 @@
+<CompoundNode>
+<DefineOperatornode>  </DefineOperatornode>
+<Identifiernode>  test_2</Identifiernode>
+	<CompoundNode>
+	<LambdaOperatornode>  </LambdaOperatornode>
+			<CompoundNode>
+		<ExistsOperatornode>  </ExistsOperatornode>
+		<Identifiernode>  I</Identifiernode>
+					<CompoundNode>
+			<Andoperatornode>  </Andoperatornode>
+							<CompoundNode>
+				<Andoperatornode>  </Andoperatornode>
+									<CompoundNode>
+					<ImmediateAssignmentoperatornode>  </ImmediateAssignmentoperatornode>
+					<Identifiernode>  I</Identifiernode>
+					<Intconstantnode>  0</Intconstantnode>
+					</CompoundNode>
+									<CompoundNode>
+					<GetsOperatornode>  </GetsOperatornode>
+					<Identifiernode>  I</Identifiernode>
+											<CompoundNode>
+						<Addoperatornode>  </Addoperatornode>
+						<Identifiernode>  I</Identifiernode>
+						<Intconstantnode>  1</Intconstantnode>
+						</CompoundNode>
+					</CompoundNode>
+				</CompoundNode>
+							<CompoundNode>
+				<HaltOperatornode>  </HaltOperatornode>
+									<CompoundNode>
+					<IsEqualTooperatornode>  </IsEqualTooperatornode>
+					<Identifiernode>  I</Identifiernode>
+					<Intconstantnode>  5</Intconstantnode>
+					</CompoundNode>
+				</CompoundNode>
+			</CompoundNode>
+		</CompoundNode>
+	</CompoundNode>
+</CompoundNode>
+
