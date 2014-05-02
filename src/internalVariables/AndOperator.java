@@ -89,10 +89,10 @@ public class AndOperator extends BinaryOperator
             return new BooleanConstantNode(value1.GetValue() && value2.GetValue());
         }
     }
+    
     @Override
     public String GetNodeContents()
     {
         return("And operator node");
     }
-    
 }

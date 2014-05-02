@@ -9,7 +9,9 @@ import internalVariables.UnaryOperator;
 {
  @Override
  public NodeType PerformOperation(NodeType n1)
- { return null; }
+ { 
+     return null; 
+ }
 
 
 @Override
@@ -17,5 +19,6 @@ import internalVariables.UnaryOperator;
 public String GetNodeContents()
 {
 return("SqrtOperator node");
-}  
+}
+
 }

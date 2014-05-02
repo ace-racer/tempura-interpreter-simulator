@@ -11,7 +11,7 @@
  * @author anurag
  */
 package interpreter;
-import executionRoutine.GlobalVariables;
+import executionRoutine.*;
 import static executionRoutine.GlobalVariables.symbolTables;
 import java.io.*;
 import internalVariables.*;
@@ -68,13 +68,14 @@ public class Program {
       {
           
       }
+      
+      boolean isLastState = false;
       BasicNode program = (BasicNode)this.RootNodeOfExpressionTree;
       
       while(GlobalVariables.GetStateNumber() < GlobalVariables.GetMaximumStates())
       {
               //get the weak next form  
               NodeType w = program.ExecuteOperation();
-              PrintVariableValues();
               
               if(w.isBasicNode)
               {
@@ -89,9 +90,21 @@ public class Program {
                      boolean value = ((BooleanConstantNode)basicConstant).GetValue();
                      if(value == false)
                      {
-                         break;
+                         isLastState = true;
                      }
                   }
+              }
+              
+              if(isLastState)
+              {
+                  //execute all the statements in the fin operators
+                  FinOperands.ExecuteAllFinOperands();
+              }
+              PrintVariableValues();
+              
+              if(isLastState)
+              {
+                  break;
               }
               
               GlobalVariables.IncrementState();

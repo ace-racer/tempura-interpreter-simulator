@@ -1,4 +1,5 @@
 package internalVariables.temporalOperators;
+import internalVariables.BasicNode;
 import internalVariables.NodeType;
 import internalVariables.UnaryOperator;
 
@@ -7,12 +8,21 @@ import internalVariables.UnaryOperator;
 
  public class KeepOperator extends UnaryOperator
 {
+     
  @Override
  public NodeType PerformOperation(NodeType n1)
- { return null; }
+ { 
+     if(n1.isBasicNode)
+     {
+         ((BasicNode)n1).ExecuteOperation();
+     }
+     return new BasicNode(new AlwaysOperator(), n1);
+ }
+ 
 @Override
 public String GetNodeContents()
 {
 return("KeepOperator node");
 }  
+
 }
