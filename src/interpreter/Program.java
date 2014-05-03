@@ -1,11 +1,3 @@
-//package interpreter_new;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author anurag
@@ -16,6 +8,8 @@ import static executionRoutine.GlobalVariables.symbolTables;
 import java.io.*;
 import internalVariables.*;
 import internalVariables.constantNodes.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import symbolTable.*;
 
@@ -26,7 +20,7 @@ public class Program {
     
     public void ParseFromFile(String fileName) throws FileNotFoundException
     {
-      System.out.println("Parsing file: "+fileName);
+      //System.out.println("Parsing file: "+fileName);
       File f=new File(fileName);
       if(f.exists())
        {
@@ -39,7 +33,7 @@ public class Program {
        {
 	 System.out.println(fileName+" cannot be opened");
        }
-      System.out.println("Parsing over");
+      //System.out.println("Parsing over");
     }
     
    
@@ -57,12 +51,12 @@ public class Program {
        f.delete();
    }
     
-  public void Simulate(String fileName) 
+  public List<List<VariableValuePair> > Simulate(String code) 
   {
       //this is the routine for simulation
       try
       {
-        this.ParseFromFile(fileName);
+        this.ParseFromText(code);
       }
       catch(FileNotFoundException fnfe)
       {
@@ -71,6 +65,7 @@ public class Program {
       
       boolean isLastState = false;
       BasicNode program = (BasicNode)this.RootNodeOfExpressionTree;
+      List<List<VariableValuePair> > allValues = new ArrayList<>();      
       
       while(GlobalVariables.GetStateNumber() < GlobalVariables.GetMaximumStates())
       {
@@ -100,7 +95,10 @@ public class Program {
                   //execute all the statements in the fin operators
                   FinOperands.ExecuteAllFinOperands();
               }
-              PrintVariableValues();
+              
+              //modified version of this method is called by the paint routine
+              List<VariableValuePair> values = GetVariableValues();
+              allValues.add(values);
               
               if(isLastState)
               {
@@ -108,66 +106,16 @@ public class Program {
               }
               
               GlobalVariables.IncrementState();
-      }        
-      
+      }
+      //restore all global variables once the simulation is over
+      GlobalVariables.RestoreValues();
+      return allValues;
   }
    
-   public static void TestParsing(String fileName) throws FileNotFoundException
+   public static void main(String args[]) throws IOException 
    {
-       Program p = new Program();
-    System.out.println("Parsing started");
-    
-         // parse a file
-        p.ParseFromFile(fileName);
-        
-        //RootNodeOfExpressionTree.GetNodeContents();
-        String formattedOutput=(p.RootNodeOfExpressionTree.GetFormattedOutput(0).toString());
-        
-        //the current directory where the created file is stored
-        //System.out.println("Current directory: "+System.getProperty("user.dir"));
-        
-        File f=new File("ProgramExpressionTree1.xml");
-        try (PrintWriter out = new PrintWriter(f)) {
-            out.println(formattedOutput);
-        }
-        
-        
-        String tempuraCode="/* run */define test_2() = \n" +
-        "{ exists I:\n" +
-        "  {\n" +
-        "     I=0 and I gets I+1 and always output I and len 5\n" +
-        "  }\n" +
-        "}.";
-        p.ParseFromText(tempuraCode);
-        formattedOutput = (p.RootNodeOfExpressionTree.GetFormattedOutput(0).toString());
-        f=new File("ProgramExpressionTree2.xml");
-        try (PrintWriter out = new PrintWriter(f)) {
-            out.println(formattedOutput);
-        }
-   }
-   
-    public static void main(String args[]) throws IOException {
-     
-        /*
-        if(args.length > 0)
-        {
-            TestParsing(args[0]);
-        }
-        */
-        
-        
         Program p = new Program();
         p.Simulate(args[0]);
-        
-        /*
-        ((BasicNode)p.RootNodeOfExpressionTree).SetUpTerminationCondition();
-        
-        if(GlobalVariables.isTerminationCriterionSpecified)
-            System.out.println("Yaay");
-        else
-            System.out.println("Noo");    
-        */        
-    
    }
 
 
@@ -205,17 +153,21 @@ private void PrintValue(NodeType node)
       }
    }
 
-private void PrintVariableValues() {
-    
+private List<VariableValuePair> GetVariableValues() 
+{
         int stateNumber = GlobalVariables.GetStateNumber();
-        System.out.println("State: "+ stateNumber);
+        
+        //System.out.println("State: "+ stateNumber);
+        
+        List<VariableValuePair> values = new ArrayList<>();
         
         for(Map.Entry<String,NodeType> entry: symbolTables[stateNumber].map.entrySet())
         {
             if(null != entry.getValue() && entry.getValue().isConstant)
             {
-                System.out.println("Variable: "+entry.getKey()+" Value: "+((IntConstantNode)entry.getValue()).GetValue());
+                values.add(new VariableValuePair(entry.getKey(), ((IntConstantNode)entry.getValue()).GetValue()));
             }
         }
+        return values;
     }
 }

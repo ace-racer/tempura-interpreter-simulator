@@ -15,7 +15,7 @@ import internalVariables.*;
 public class FinOperands {
     //maximum number of fin operators
     private static final int finOperators;
-    private static final NodeType[] finOperands;
+    private static NodeType[] finOperands;
     //the index where the next operand will be inserted
     private static int index;
     
@@ -41,5 +41,11 @@ public class FinOperands {
                 ((BasicNode)finOperands[i]).ExecuteOperation();
             }
         }
+    }
+    
+    public static void RestoreValues()
+    {
+      index = 0;
+      finOperands = new NodeType[finOperators];  
     }
 }

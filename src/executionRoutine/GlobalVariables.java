@@ -16,7 +16,7 @@ public class GlobalVariables {
     
     private static final int maximumStates;
     private static int stateNumber;
-    public static final MapWrapper[] symbolTables;
+    public static MapWrapper[] symbolTables;
     
     
     //static block to be executed only once
@@ -53,4 +53,13 @@ public class GlobalVariables {
     {
         return maximumStates;
     }
+    
+    public static void RestoreValues()
+    {
+        stateNumber = 0;
+        symbolTables =  new MapWrapper[maximumStates+1];
+        symbolTables[0] = new MapWrapper();
+        FinOperands.RestoreValues();
+    }
+    
 }
