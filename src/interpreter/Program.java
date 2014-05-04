@@ -122,7 +122,7 @@ public class Program {
 "        if(C==false)then {\n" +
 "             V:=V+1\n" +
 "            }\n" +
-"        else if(C==true)then  {\n" +
+"        else {\n" +
 "             V:=V\n" +
 "        }} and len 15\n" +
 "    }\n" +
