@@ -25,18 +25,29 @@ public class IsEqualToOperator extends BinaryOperator{
     public NodeType PerformOperation(NodeType n1, NodeType n2) 
     {
         IntConstantNode intConstant1 = null,intConstant2 = null;
+        BooleanConstantNode boolConstant1 = null,boolConstant2 = null;
         if(n1.isConstant)
         {
             if(((BasicConstant)n1).GetConstantType() == Type.INT)
             {
                 intConstant1 = (IntConstantNode)n1;
             }
+            if(((BasicConstant)n1).GetConstantType() == Type.BOOL)
+            {
+                boolConstant1 = (BooleanConstantNode)n1;
+            }
         }
+        
         if(n2.isConstant)
         {
             if(((BasicConstant)n2).GetConstantType() == Type.INT)
             {
                 intConstant2 = (IntConstantNode)n2;
+            }
+            
+            if(((BasicConstant)n2).GetConstantType() == Type.BOOL)
+            {
+                boolConstant2 = (BooleanConstantNode)n2;
             }
         }
         
@@ -48,21 +59,29 @@ public class IsEqualToOperator extends BinaryOperator{
             {
                 intConstant1 = (IntConstantNode)basicConstant;
             }
+            if(basicConstant != null && basicConstant.GetConstantType() == Type.BOOL)
+            {
+                boolConstant1 = (BooleanConstantNode)basicConstant;
+            }
         }
         
         
         if(n2.isIdentifierNode)
         {
             basicConstant = (BasicConstant)SymbolTable.AccessValueOfVariable(((IdentifierNode)n2).GetIdentifierName());
-            if(basicConstant != null && basicConstant.GetConstantType() == Type.INT)
+            if(basicConstant != null && basicConstant.GetConstantType() == Type.BOOL)
             {
-                intConstant2 = (IntConstantNode)basicConstant;
+                boolConstant2 = (BooleanConstantNode)basicConstant;
             }
         }
         
         if(intConstant1!=null && intConstant2!=null)
         {
-            return new BooleanConstantNode(intConstant1.GetValue()==intConstant2.GetValue());
+            return new BooleanConstantNode(intConstant1.GetValue()== intConstant2.GetValue());
+        }
+        else if(boolConstant1!=null && boolConstant2!=null)
+        {
+            return new BooleanConstantNode(boolConstant1.GetValue() == boolConstant2.GetValue());
         }
         else
         {

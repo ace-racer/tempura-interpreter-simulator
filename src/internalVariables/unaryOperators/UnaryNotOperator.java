@@ -9,9 +9,12 @@ package internalVariables.unaryOperators;
 import internalVariables.constantNodes.BooleanConstantNode;
 import internalVariables.constantNodes.BasicConstant;
 import Errors.OperandTypeIncorrect;
+import com.sun.corba.se.spi.ior.Identifiable;
 import internalVariables.BasicNode;
+import internalVariables.IdentifierNode;
 import internalVariables.NodeType;
 import internalVariables.UnaryOperator;
+import symbolTable.SymbolTable;
 import symbolTable.Type;
 
 /**
@@ -22,38 +25,34 @@ public class UnaryNotOperator extends UnaryOperator{
     @Override
     public NodeType PerformOperation(NodeType n1)
     {
-        if(n1.isConstant)
-        {
-            BasicConstant basicConstant=(BasicConstant)n1;
-            if(basicConstant.GetConstantType()==Type.BOOL)
-            {
-                BooleanConstantNode booleanConstantNode=(BooleanConstantNode)basicConstant;
-                return new BooleanConstantNode(!(booleanConstantNode.value));
-            }
-            else
-            {
-                OperandTypeIncorrect.PrintErrorMessage();
-                return null;
-            }
-        }
-        else if(n1.isBasicNode)
-        {
-            NodeType basicConstant=((BasicNode)n1).ExecuteOperation();
-            if(((BasicConstant)basicConstant).GetConstantType()==Type.BOOL)
-            {
-                BooleanConstantNode booleanConstantNode=(BooleanConstantNode)basicConstant;
-                return PerformOperation(booleanConstantNode);
-            }
-            else
-            {
-                OperandTypeIncorrect.PrintErrorMessage();
-                return null;
-            }
-        }
-        else
-        {
-            return null;
-        }
+       BooleanConstantNode booleanConstant = null;
+       if(n1.isBasicNode)
+       {
+           n1 = n1.ExecuteOperation();
+       }
+       
+       if(n1.isConstant && ((BasicConstant)n1).GetConstantType() == Type.BOOL)
+       {
+           booleanConstant = (BooleanConstantNode)n1;
+       }
+       
+       if(n1.isIdentifierNode)
+       {
+           NodeType identifierValue = SymbolTable.AccessValueOfVariable(((IdentifierNode)n1).GetIdentifierName());
+           if(identifierValue.isConstant && ((BasicConstant)identifierValue).GetConstantType() == Type.BOOL)
+              {
+                    booleanConstant = (BooleanConstantNode)identifierValue;
+              }
+       }
+       
+       if(null != booleanConstant)
+       {
+           return new BooleanConstantNode(!booleanConstant.GetValue());
+       }
+       else
+       {
+           return null;
+       }
     }
   @Override
     public String GetNodeContents()

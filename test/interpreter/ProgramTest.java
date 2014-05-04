@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author anuneeta
+ * @author anurag
  */
 public class ProgramTest {
     
@@ -163,5 +163,47 @@ public class ProgramTest {
             assertEquals(i*2, values.get(0).value);
         }
         
+    }
+    
+    @Test
+    public void testSimulateThreeBitCounter() {
+       
+        System.out.println("Input tempura code tries to simulate 3 bit counter");
+        String code="/* run */define threeBitCounter() =\n" +
+"{\n" +
+"    exists V,C:\n" +
+"    {\n" +
+"          C=true and V=0 and C gets ~C and always{\n" +
+"        if(C==false)then {\n" +
+"             V:=V+1\n" +
+"            }\n" +
+"        else if(C==true)then  {\n" +
+"             V:=V\n" +
+"        }} and len 15\n" +
+"    }\n" +
+"}.";
+        Program instance = new Program();
+        List<List<VariableValuePair> > returnedValues = instance.Simulate(code);
+        
+        //whether the number of states is 8
+        assertEquals(16, returnedValues.size());
+        
+        
+        for(int i=0; i<16; i+=2)
+        {
+            //values in this state
+            assertEquals("V",returnedValues.get(i).get(0).VariableName);
+            assertEquals(i,returnedValues.get(i).get(0).value);
+            
+            assertEquals("C",returnedValues.get(i).get(1).VariableName);
+            assertEquals(1,returnedValues.get(i).get(1).value);
+            
+            //values in the next state
+            assertEquals("V",returnedValues.get(i+1).get(0).VariableName);
+            assertEquals(i,returnedValues.get(i+1).get(0).value);
+            
+            assertEquals("C",returnedValues.get(i+1).get(1).VariableName);
+            assertEquals(0,returnedValues.get(i+1).get(1).value);
+        }
     }
 }

@@ -1,4 +1,5 @@
 package internalVariables.temporalOperators;
+import internalVariables.BasicNode;
 import internalVariables.NodeType;
 import internalVariables.BinaryOperator;
 
@@ -9,7 +10,11 @@ import internalVariables.BinaryOperator;
 {
  @Override
  public NodeType PerformOperation(NodeType n1, NodeType n2)
- { return null; }
+ { 
+     //assignment in next state
+     return new BasicNode(new IassignOperator(), n1,n2);
+ }
+ 
 @Override
 public String GetNodeContents()
 {
