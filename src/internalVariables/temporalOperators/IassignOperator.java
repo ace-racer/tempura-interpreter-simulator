@@ -20,7 +20,6 @@ public class IassignOperator extends BinaryOperator{
     {
         if(n1.isIdentifierNode)
         {
-              
               //assign value to the variable in the current state
               ((IdentifierNode)n1).AssignValueToIdentifier(n2.ExecuteOperation());
               return new BooleanConstantNode(true);

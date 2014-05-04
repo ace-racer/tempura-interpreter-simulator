@@ -58,7 +58,7 @@ public final class SymbolTable
         }
     }
     
-    public static NodeType AccessValueOfVariable(String varName)
+   public static NodeType AccessValueOfVariable(String varName)
     {
         if(varName!=null && !varName.isEmpty())
         {

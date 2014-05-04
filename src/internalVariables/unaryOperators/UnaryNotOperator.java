@@ -8,9 +8,6 @@ package internalVariables.unaryOperators;
 
 import internalVariables.constantNodes.BooleanConstantNode;
 import internalVariables.constantNodes.BasicConstant;
-import Errors.OperandTypeIncorrect;
-import com.sun.corba.se.spi.ior.Identifiable;
-import internalVariables.BasicNode;
 import internalVariables.IdentifierNode;
 import internalVariables.NodeType;
 import internalVariables.UnaryOperator;

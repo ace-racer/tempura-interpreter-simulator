@@ -20,7 +20,7 @@ public class Program {
     
     public void ParseFromFile(String fileName) throws FileNotFoundException
     {
-      System.out.println("Parsing file: "+fileName);
+      //System.out.println("Parsing file: "+fileName);
       File f=new File(fileName);
       if(f.exists())
        {
@@ -33,7 +33,7 @@ public class Program {
        {
 	 System.out.println(fileName+" cannot be opened");
        }
-      System.out.println("Parsing over");
+      //System.out.println("Parsing over");
     }
     
    
@@ -118,12 +118,12 @@ public class Program {
 "{\n" +
 "    exists V,C:\n" +
 "    {\n" +
-"          C=true and V=0 and C gets ~C and always{\n" +
-"        if(C==false)then {\n" +
-"             V:=V+1\n" +
+"          C=true and V=-1 and C gets ~C and always{\n" +
+"        if(C==true)then {\n" +
+"             V=V+1\n" +
 "            }\n" +
 "        else {\n" +
-"             V:=V\n" +
+"             V=V\n" +
 "        }} and len 15\n" +
 "    }\n" +
 "}.";
@@ -132,6 +132,7 @@ public class Program {
        
        for(int i=0;i<16;i++)
        {
+           System.out.println("State number: "+i);
            System.out.println("Variable: "+returnedValues.get(i).get(0).VariableName+" Value: "+returnedValues.get(i).get(0).value);
            System.out.println("Variable: "+returnedValues.get(i).get(1).VariableName+" Value: "+returnedValues.get(i).get(1).value);
        }

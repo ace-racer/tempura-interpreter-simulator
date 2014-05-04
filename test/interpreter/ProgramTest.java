@@ -173,12 +173,12 @@ public class ProgramTest {
 "{\n" +
 "    exists V,C:\n" +
 "    {\n" +
-"          C=true and V=0 and C gets ~C and always{\n" +
-"        if(C==false)then {\n" +
-"             V:=V+1\n" +
+"          C=true and V=-1 and C gets ~C and always{\n" +
+"        if(C==true)then {\n" +
+"             V=V+1\n" +
 "            }\n" +
-"        else if(C==true)then  {\n" +
-"             V:=V\n" +
+"        else {\n" +
+"             V=V\n" +
 "        }} and len 15\n" +
 "    }\n" +
 "}.";
@@ -188,22 +188,24 @@ public class ProgramTest {
         //whether the number of states is 8
         assertEquals(16, returnedValues.size());
         
-        
+        int counterValue = 0;
         for(int i=0; i<16; i+=2)
         {
             //values in this state
             assertEquals("V",returnedValues.get(i).get(0).VariableName);
-            assertEquals(i,returnedValues.get(i).get(0).value);
+            assertEquals(counterValue,returnedValues.get(i).get(0).value);
             
             assertEquals("C",returnedValues.get(i).get(1).VariableName);
             assertEquals(1,returnedValues.get(i).get(1).value);
             
             //values in the next state
             assertEquals("V",returnedValues.get(i+1).get(0).VariableName);
-            assertEquals(i,returnedValues.get(i+1).get(0).value);
+            assertEquals(counterValue,returnedValues.get(i+1).get(0).value);
             
             assertEquals("C",returnedValues.get(i+1).get(1).VariableName);
             assertEquals(0,returnedValues.get(i+1).get(1).value);
+            
+            counterValue++;
         }
     }
 }

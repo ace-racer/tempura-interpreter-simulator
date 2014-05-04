@@ -2,6 +2,9 @@ package internalVariables.temporalOperators;
 import internalVariables.BasicNode;
 import internalVariables.NodeType;
 import internalVariables.UnaryOperator;
+import internalVariables.constantNodes.BasicConstant;
+import internalVariables.constantNodes.BooleanConstantNode;
+import symbolTable.Type;
 
 
 //author Anurag
@@ -13,6 +16,10 @@ public class AlwaysOperator extends UnaryOperator
      if(n1.isBasicNode)
      {
          ((BasicNode)n1).ExecuteOperation();
+     }
+     if(n1.isConstant)
+     {
+        return new BooleanConstantNode(false);
      }
      return new BasicNode(new AlwaysOperator(), n1);
  }

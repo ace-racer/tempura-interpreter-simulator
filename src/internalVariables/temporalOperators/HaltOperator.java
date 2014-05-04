@@ -6,7 +6,7 @@ import internalVariables.constantNodes.BooleanConstantNode;
 
  //author Anurag
 
- public class HaltOperator extends UnaryOperator
+public class HaltOperator extends UnaryOperator
 {
  @Override
  public NodeType PerformOperation(NodeType n1)
