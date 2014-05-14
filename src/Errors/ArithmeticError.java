@@ -11,8 +11,8 @@ package Errors;
  *
  * @author anurag
  */
-public class ArithmeticError {
-    public static void PrintErrorMessage()
+public class ArithmeticError extends BasicError {
+    public static void PrintErrorMessage ()
     {
         System.out.println("Arithmetic Error!!");
     }
